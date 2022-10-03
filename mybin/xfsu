@@ -1,0 +1,124 @@
+#!/bin/bash
+
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NOCOLOR='\033[0m'
+
+>xload
+
+update_modules(){
+  for f in mod*.spl 
+  do
+
+    filename=$(basename -- "$f")
+    res=`splc $filename 2>&1` ;
+    extension="${filename##*.}"
+    filename="${filename%.*}"
+    
+    if [[ -z "$res" ]]; then
+      modno=$(echo $(sed "s/[^0-9]*//g" <<< $filename))
+      echo "load --module $modno $(readlink -f $filename.xsm)" >> xload
+      echo -e "${GREEN}[ $filename.$extension ]: OK"
+    else
+      echo -e "${RED}[ $filename.$extension ] : $res"
+    fi;
+
+  done
+}
+
+update_interrupts(){
+  for f in int*.spl 
+  do
+
+    filename=$(basename -- "$f")
+    res=$(splc $filename)
+    extension="${filename##*.}"
+    filename="${filename%.*}"
+    
+    if [ -z "$res" ]; then
+      intno=$(echo $(sed "s/[^0-9]*//g" <<< $filename))
+      echo "load --int=$intno $(readlink -f $filename.xsm)" >> xload
+      echo -e "${GREEN}[ $filename.$extension ]: OK"
+    else
+      echo -e "${RED}[ $filename.$extension ] : $res"
+    fi;
+
+  done
+
+}
+
+update_core(){
+  res=$(splc osloader.spl)
+  if [ -z "$res" ]; then
+    echo "load --os $(readlink -f osloader.xsm)" >> xload
+    echo -e "${GREEN}[ osloader.spl ] : OK"
+  else
+    echo -e "${RED}[ osloader.spl ] : $res"
+    return;
+  fi;
+  #res=$(splc disk.spl)
+  #if [ -z "$res" ]; then
+  #  echo "load --int=disk$(readlink -f disk.xsm)" >> xload
+  #  echo -e "${GREEN}[ disk.spl ] : OK"
+  #else
+  #  echo -e "${RED}[ disk.spl ] : $res"
+  #  return;
+  #fi;
+  res=$(splc console.spl)
+  if [ -z "$res" ]; then
+    echo "load --int=console $(readlink -f console.xsm)" >> xload
+    echo -e "${GREEN}[ console.spl ] : OK"
+  else
+    echo -e "${RED}[ console.spl ] : $res"
+    return;
+  fi;
+  res=$(splc timer.spl)
+  if [ -z "$res" ]; then
+    echo "load --int=timer $(readlink -f timer.xsm)" >> xload
+    echo -e "${GREEN}[ timer.spl ] : OK"
+  else
+    echo -e "${RED}[ timer.spl ] : $res"
+    return;
+  fi;
+  echo "load --library $HOME/myexpos/expl/library.lib" >> xload
+  echo -e "${GREEN}[ library.lib ] : OK"
+}
+
+update_user(){
+  cd user   
+  for f in *.expl
+  do
+
+    filename=$(basename -- "$f")
+    res=$(explc $filename)
+    extension="${filename##*.}"
+    filename="${filename%.*}"
+    if [  -z "$res" ]; then
+      if [ $filename == "init" ]; then
+        echo "load --init $(readlink -f init.xsm)" >> ../xload
+        echo -e "${GREEN}[ $filename.$extension ] : OK";
+      elif [ $filename == "idle" ]; then
+        echo "load --idle $(readlink -f idle.xsm)" >> ../xload
+        echo -e "${GREEN}[ $filename.$extension ] : OK";
+      else
+        echo "load --exec $(readlink -f $filename.xsm)" >> ../xload
+        echo -e "${GREEN}[ $filename.$extension ] : OK";
+      fi;
+    else
+      if [ $filename == "init" ]; then
+        echo -e "${RED}[ init.expl ] : $res"
+      elif [ $filename == "idle" ]; then
+        echo -e "${RED}[ idle.expl ] : $res"
+      else
+        echo -e "${RED}[ $filename.expl ] : $res"
+      fi;
+    fi;
+  done
+  echo "dump --inodeusertable" >> ../xload
+  cd - > /dev/null
+}
+
+update_modules
+update_interrupts
+update_core
+update_user

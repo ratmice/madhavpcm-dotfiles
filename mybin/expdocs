@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ~/docs/expos-docs/ && mkdocs serve 2> /dev/null;
+cd -
