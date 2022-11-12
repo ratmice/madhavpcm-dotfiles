@@ -1,2 +1,2 @@
-#!/bin/bash
+#!/bin/zsh
 xrandr --output HDMI-A-1-0 --auto --same-as eDP --mode $1

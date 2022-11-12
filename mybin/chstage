@@ -1,0 +1,24 @@
+#!/bin/bash
+STAGE=$1
+
+if [ $(pwd) != '/home/madhavpcm/myexpos/assignments/cwd' ] 
+then
+  echo "Run this in cwd"
+  exit 1;
+fi
+
+rm *.* 
+rm user/*.*
+
+
+ln -s ../stage$STAGE/*.spl .
+
+cd user
+
+ln -s ../../stage$STAGE/user/*.expl .
+
+cd ..
+
+xfsu
+
+

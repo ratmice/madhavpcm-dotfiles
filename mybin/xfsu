@@ -31,7 +31,7 @@ update_interrupts(){
   do
 
     filename=$(basename -- "$f")
-    res=$(splc $filename)
+    res=$(splc $filename 2>&1)
     extension="${filename##*.}"
     filename="${filename%.*}"
     
@@ -48,7 +48,7 @@ update_interrupts(){
 }
 
 update_core(){
-  res=$(splc osloader.spl)
+  res=$(splc osloader.spl 2>&1)
   if [ -z "$res" ]; then
     echo "load --os $(readlink -f osloader.xsm)" >> xload
     echo -e "${GREEN}[ osloader.spl ] : OK"
@@ -56,15 +56,15 @@ update_core(){
     echo -e "${RED}[ osloader.spl ] : $res"
     return;
   fi;
-  #res=$(splc disk.spl)
-  #if [ -z "$res" ]; then
-  #  echo "load --int=disk$(readlink -f disk.xsm)" >> xload
-  #  echo -e "${GREEN}[ disk.spl ] : OK"
-  #else
-  #  echo -e "${RED}[ disk.spl ] : $res"
-  #  return;
-  #fi;
-  res=$(splc console.spl)
+  res=$(splc disk.spl 2>&1)
+  if [ -z "$res" ]; then
+    echo "load --int=disk $(readlink -f disk.xsm)" >> xload
+    echo -e "${GREEN}[ disk.spl ] : OK"
+  else
+    echo -e "${RED}[ disk.spl ] : $res"
+    return;
+  fi;
+  res=$(splc console.spl 2>&1)
   if [ -z "$res" ]; then
     echo "load --int=console $(readlink -f console.xsm)" >> xload
     echo -e "${GREEN}[ console.spl ] : OK"
@@ -72,12 +72,20 @@ update_core(){
     echo -e "${RED}[ console.spl ] : $res"
     return;
   fi;
-  res=$(splc timer.spl)
+  res=$(splc timer.spl 2>&1)
   if [ -z "$res" ]; then
     echo "load --int=timer $(readlink -f timer.xsm)" >> xload
     echo -e "${GREEN}[ timer.spl ] : OK"
   else
     echo -e "${RED}[ timer.spl ] : $res"
+    return;
+  fi;
+  res=$(splc exhandler.spl 2>&1)
+  if [ -z "$res" ]; then
+    echo "load --exhandler $(readlink -f exhandler.xsm)" >> xload
+    echo -e "${GREEN}[ exhandler.spl ] : OK"
+  else
+    echo -e "${RED}[ exhandler.spl ] : $res"
     return;
   fi;
   echo "load --library $HOME/myexpos/expl/library.lib" >> xload
@@ -90,17 +98,21 @@ update_user(){
   do
 
     filename=$(basename -- "$f")
-    res=$(explc $filename)
+    res=$(explc $filename 2>&1)
     extension="${filename##*.}"
     filename="${filename%.*}"
     if [  -z "$res" ]; then
       if [ $filename == "init" ]; then
         echo "load --init $(readlink -f init.xsm)" >> ../xload
         echo -e "${GREEN}[ $filename.$extension ] : OK";
+      elif [ $filename == "shell" ]; then
+        echo "load --shell $(readlink -f shell.xsm)" >> ../xload
+        echo -e "${GREEN}[ $filename.$extension ] : OK";
       elif [ $filename == "idle" ]; then
         echo "load --idle $(readlink -f idle.xsm)" >> ../xload
         echo -e "${GREEN}[ $filename.$extension ] : OK";
       else
+        echo "rm $filename.xsm" >> ../xload
         echo "load --exec $(readlink -f $filename.xsm)" >> ../xload
         echo -e "${GREEN}[ $filename.$extension ] : OK";
       fi;
@@ -109,6 +121,8 @@ update_user(){
         echo -e "${RED}[ init.expl ] : $res"
       elif [ $filename == "idle" ]; then
         echo -e "${RED}[ idle.expl ] : $res"
+      elif [ $filename == "shell" ]; then
+        echo -e "${RED}[ shell.expl ] : $res"
       else
         echo -e "${RED}[ $filename.expl ] : $res"
       fi;
