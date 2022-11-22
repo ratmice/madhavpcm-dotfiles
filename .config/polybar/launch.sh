@@ -14,7 +14,6 @@ launch_bar() {
 	if [[ "$style" == "hack" || "$style" == "cuts" ]]; then
       if type "xrandr"; then
         for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-           polybar --reload example &
           MONITOR=$m polybar -q top -c "$dir/$style/config.ini" &
           MONITOR=$m polybar -q bottom -c "$dir/$style/config.ini" &
         done

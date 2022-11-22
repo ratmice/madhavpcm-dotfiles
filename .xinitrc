@@ -11,7 +11,7 @@ fi
 albert &
 fusuma &
 nitrogen --restore &
-picom --config ~/.config/picom/picom.conf -f --experimental-backends &
+picom --config ~/.config/picom/picom.conf -f  &
 ~/.config/polybar/launch.sh --cuts
 exec mybin/startdwm
 

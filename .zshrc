@@ -22,7 +22,9 @@ PERL5LIB="/home/madhavpcm/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL
 PERL_LOCAL_LIB_ROOT="/home/madhavpcm/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/madhavpcm/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/madhavpcm/perl5"; export PERL_MM_OPT;
+
 alias config='/usr/bin/git --git-dir=/home/madhavpcm/.cfg/ --work-tree=/home/madhavpcm/'
+alias lockctl='/usr/bin/betterlockscreen -l'
 bindkey -v
 MANGOHUD_CONFIGFILE="~/.config/mangohud/mangohud.conf"
 export IFNAME="wlp6s0"
