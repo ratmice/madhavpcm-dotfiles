@@ -21,20 +21,51 @@ require('packer').startup(function(use)
 	-- Package manager
 	use {'wbthomason/packer.nvim'}
 
-	-- Theme inspired by Atom
-	use {'RRethy/nvim-base16'}
+	-- Tree Sitter plugins
+	use {'windwp/nvim-ts-autotag'}
+	use {'p00f/nvim-ts-rainbow'}
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate'
+    }
+	-- Code/Workflow
+	--
+	use { 
+		'folke/which-key.nvim',
+	config = function()
+		require("which-key").setup {
+		}
+	end
 
+	}
+	use {'windwp/nvim-autopairs'}
+	use {'sakhnik/nvim-gdb'}
+	use {
+		'nvim-telescope/telescope.nvim', tag = '0.1.0',
+		requires = { {'nvim-lua/plenary.nvim'} }
+	}
+
+	-- Looks and themes
 	use {
 		'kyazdani42/nvim-tree.lua',
 		requires = 'kyazdani42/nvim-web-devicons'
 	}
-
-	use {'utilyre/barbecue.nvim'}
-
+	use {'RRethy/nvim-base16'}
 	use {'Mofiqul/vscode.nvim'}
-
 	use {'yamatsum/nvim-cursorline'}
-
+	use {
+		"utilyre/barbecue.nvim",
+		requires = {
+			"neovim/nvim-lspconfig",
+			"smiteshp/nvim-navic",
+			"kyazdani42/nvim-web-devicons", 
+		},
+		after = "nvim-web-devicons", 
+		config = function()
+			require("barbecue").setup()
+		end,
+	}
+	use {'glepnir/dashboard-nvim'}
 	use {'nvim-lualine/lualine.nvim',  requires = { 'kyazdani42/nvim-web-devicons', opt = true }
 }
 
