@@ -36,6 +36,24 @@ local mappings = {
 		s = { ":PackerSync<cr>", "Sync Plugins" },
 		S = { ":PackerStatus<cr>", "Packer Status" },
 		u = { ":PackerUpdate<cr>", "Update Plugins" }
+	},
+	l = {
+		name = "LSP",
+		i = {":LspInfo<cr>", "Connected Language Servers"},
+		k = {"<cmd>lua vim.lsp.buf.signature_help()<cr>", "Signature Help"},
+		K = {"<cmd>lua vim.lsp.buf.hover()<cr>", "Hover Commands"},
+		w = {"<cmd>lua vim.lsp.remove_workspace_folder()<cr>", "Add Workspace folder"},
+		W = {"<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<cr>", "List Workspace folders"},
+		l = {"<cmd>lua vim.lsp.buf.type_definition()<cr>", "Type Definition"},
+		d = {"<cmd>lua vim.lsp.buf.definition()<cr>", "Go to Definition"},
+		D = {"<cmd>lua vim.lsp.buf.declaration()<cr>", "Go to Declaration"},
+		r = {"<cmd>lua vim.lsp.buf.references()<cr>", "References"},
+		R = {"<cmd>lua vim.lsp.buf.rename()<cr>", "Rename"},
+		a = {"<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action"},
+		e = {"<cmd>lua vim.lsp.diagnostic.show_line_diagnostic()<cr>", "Show line diagnostic"},
+		n = {"<cmd>lua vim.lsp.diagnostic.goto_next()<cr>", "Go to next diagnostic"},
+		N = {"<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>", "Go to previous diagnostic"},
+
 	}
 }
 

@@ -28,18 +28,35 @@ require('packer').startup(function(use)
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
     }
+
+	-- Completions
+	use {'hrsh7th/nvim-cmp'}
+	use {'hrsh7th/cmp-path'}
+	use {'hrsh7th/cmp-cmdline'}
+	use {'hrsh7th/cmp-buffer'}
+	use {"hrsh7th/cmp-nvim-lsp"}
+	use {"hrsh7th/cmp-nvim-lua"}
+	--
+	-- LSP
+	--
+	use {'neovim/nvim-lspconfig'}
+	use { "williamboman/mason.nvim" }
+	use { "williamboman/mason-lspconfig.nvim" }
+	use {'jose-elias-alvarez/null-ls.nvim'} -- LSP diagnostics and code actions
+
 	-- Code/Workflow
 	--
+
+	use {'windwp/nvim-autopairs'}
+	use {'sakhnik/nvim-gdb'}
+	use {'L3MON4D3/LuaSnip'}
 	use { 
 		'folke/which-key.nvim',
 	config = function()
 		require("which-key").setup {
 		}
 	end
-
 	}
-	use {'windwp/nvim-autopairs'}
-	use {'sakhnik/nvim-gdb'}
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.0',
 		requires = { {'nvim-lua/plenary.nvim'} }

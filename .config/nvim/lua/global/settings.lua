@@ -19,6 +19,5 @@ vim.keymap.set('n', '<leader>ww', '<cmd>write<cr>', {desc = 'Save'})
 --
 vim.keymap.set({'n', 'x'}, 'x', '"_x')
 vim.keymap.set({'n', 'v'}, '<C-c>', '"*y')
-vim.keymap.set({'n', 'v'}, '<C-v>', '"*p')
+vim.keymap.set({'n', 'v'}, '<C-p>', '"*p')
 
-vim.keymap.set('n', '<leader>A', ':keepjumps normal! ggVG<cr>')
