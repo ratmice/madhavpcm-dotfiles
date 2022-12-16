@@ -1,14 +1,16 @@
-require('global.vars')
-require('global.settings')
-require('plugins.packer')
-require('plugins.which-key')
-require('lsp')
-require('plugins.nvim-cmp')
-require('plugins.nvim-tree')
-require('plugins.dashboard')
-require('plugins.autopairs')
-require('plugins.tree-sitter')
-require('plugins.telescope')
-require('plugins.color')
-require('plugins.lualine')
-require('plugins.cursorline')
+require "global.vars"
+require "global.settings"
+require "plugins.packer"
+require "lsp"
+require "lsp.rust-tools"
+require "plugins.which-key"
+require "plugins.barbecue"
+require "plugins.nvim-cmp"
+require "plugins.nvim-tree"
+require "plugins.dashboard"
+require "plugins.autopairs"
+require "plugins.tree-sitter"
+require "plugins.telescope"
+require "plugins.color"
+require "plugins.lualine"
+require "plugins.cursorline"
