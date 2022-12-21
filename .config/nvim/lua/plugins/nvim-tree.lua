@@ -12,12 +12,13 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
 
 -- empty setup using defaults
-require("nvim-tree").setup()
 
 -- OR setup with some options
-require("nvim-tree").setup({
+require("nvim-tree").setup {
   sort_by = "case_sensitive",
+  ignore_buffer_on_setup = true,
   view = {
+    relativenumber = true,
     adaptive_size = true,
     mappings = {
       list = {
@@ -31,5 +32,4 @@ require("nvim-tree").setup({
   filters = {
     dotfiles = true,
   },
-})
-
+}

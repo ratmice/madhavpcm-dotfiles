@@ -20,13 +20,16 @@ end
 require("packer").startup(function(use)
   -- Package manager
   use { "wbthomason/packer.nvim" }
+  use { "lewis6991/impatient.nvim" }
 
   -- Tree Sitter plugins
-  use { "windwp/nvim-ts-autotag" }
-  use { "p00f/nvim-ts-rainbow" }
+  use { "windwp/nvim-ts-autotag", after = "nvim-treesitter" }
+  use { "p00f/nvim-ts-rainbow", after = "nvim-treesitter" }
   use {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
+    event = "BufWinEnter",
+    config = "require('plugins.tree-sitter')",
   }
 
   -- Completions
@@ -47,6 +50,14 @@ require("packer").startup(function(use)
   -- Code/Workflow
   --
 
+  use {
+    "norcalli/nvim-colorizer.lua",
+    event = "BufRead",
+    config = function()
+      require("colorizer").setup()
+    end,
+  }
+  use { "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" }, config = 'require("plugins.gitsigns")' }
   use { "simrat39/rust-tools.nvim" }
   use { "windwp/nvim-autopairs" }
   use { "sakhnik/nvim-gdb" }
@@ -61,12 +72,17 @@ require("packer").startup(function(use)
     "nvim-telescope/telescope.nvim",
     tag = "0.1.0",
     requires = { { "nvim-lua/plenary.nvim" } },
+    config = "require(plugins.telescope)",
+    cmd = "Telescope",
   }
 
   -- Looks and themes
+  use { "romgrk/barbar.nvim", wants = "nvim-web-devicons" }
   use {
     "kyazdani42/nvim-tree.lua",
     requires = "kyazdani42/nvim-web-devicons",
+    config = 'require("plugins.nvim-tree")',
+    cmd = "NvimTreeToggle",
   }
   use { "RRethy/nvim-base16" }
   use { "Mofiqul/vscode.nvim" }
@@ -78,7 +94,9 @@ require("packer").startup(function(use)
       "smiteshp/nvim-navic",
       "kyazdani42/nvim-web-devicons",
     },
+    wants = "nvim-web-devicons",
+    event = "BufWinEnter",
   }
-  use { "glepnir/dashboard-nvim" }
-  use { "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true } }
+  use { "glepnir/dashboard-nvim", event = "BufWinEnter", config = 'require("plugins.dashboard")' }
+  use { "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true }, event = "BufRead" }
 end)
