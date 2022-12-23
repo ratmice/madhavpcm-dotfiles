@@ -16,7 +16,6 @@ export PATH="$HOME/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/$HOME/.local/bin:
 
 eval "$(zoxide init zsh)"
 
-source ~/p.zsh
 PATH="/home/madhavpcm/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="/home/madhavpcm/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/madhavpcm/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;

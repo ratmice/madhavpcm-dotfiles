@@ -98,5 +98,9 @@ require("packer").startup(function(use)
     event = "BufWinEnter",
   }
   use { "glepnir/dashboard-nvim", event = "BufWinEnter", config = 'require("plugins.dashboard")' }
-  use { "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true }, event = "BufRead" }
+  use {
+    "nvim-lualine/lualine.nvim",
+    requires = { "kyazdani42/nvim-web-devicons", opt = true },
+    config = 'require("plugins.lualine")',
+  }
 end)
