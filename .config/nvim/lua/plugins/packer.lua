@@ -77,7 +77,7 @@ require("packer").startup(function(use)
   }
 
   -- Looks and themes
-  use { "romgrk/barbar.nvim", wants = "nvim-web-devicons" }
+  use { "romgrk/barbar.nvim", wants = "nvim-web-devicons", config = 'require("plugins.tabline")', event = "BufWinEnter" }
   use {
     "kyazdani42/nvim-tree.lua",
     requires = "kyazdani42/nvim-web-devicons",
@@ -96,6 +96,7 @@ require("packer").startup(function(use)
     },
     wants = "nvim-web-devicons",
     event = "BufWinEnter",
+    config = "require('plugins.barbecue')",
   }
   use { "glepnir/dashboard-nvim", event = "BufWinEnter", config = 'require("plugins.dashboard")' }
   use {
